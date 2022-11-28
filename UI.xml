@@ -1,0 +1,444 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\..\FrameXML\UI.xsd">
+	<Script file="UI.lua"/>
+	<CheckButton name="LongMacroButtonTemplate" inherits="PopupButtonTemplate" virtual="true">
+		<Scripts>
+			<OnLoad function="LongMacroButton_paintGold"/>
+			<OnClick>
+				LongMacroButton_onClick(self, button, down);
+			</OnClick>
+			<OnDragStart function="LongMacroButton_onDragStart"/>
+		</Scripts>
+	</CheckButton>
+	<Frame name="LongMacroFrame" toplevel="true" movable="true" parent="UIParent" enableMouse="true" hidden="true" inherits="ButtonFrameTemplate">
+		<Size x="338" y="424"/>
+		<Layers>
+			<Layer level="OVERLAY" textureSubLevel="-1">
+				<Texture name="LongMacroFrameIcon" file="Interface\MacroFrame\MacroFrame-Icon">
+					<Size x="60" y="60"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="-5" y="5"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<FontString inherits="GameFontNormal" text="Create Long Macros">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="LongMacroFrame" x="0" y="-5"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="LongMacroHorizontalBarLeft" file="Interface\ClassTrainerFrame\UI-ClassTrainer-HorizontalBar">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="256" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="2" y="-210"/>
+					</Anchors>
+					<TexCoords left="0" right="1.0" top="0" bottom="0.25"/>
+				</Texture>
+				<Texture file="Interface\ClassTrainerFrame\UI-ClassTrainer-HorizontalBar">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="75" y="16"/>
+					<Anchors>
+						<Anchor point="LEFT" relativeTo="LongMacroHorizontalBarLeft" relativePoint="RIGHT" x="0" y="0"/>
+					</Anchors>
+					<TexCoords left="0" right="0.29296875" top="0.25" bottom="0.5"/>
+				</Texture>
+				<Texture name="LongMacroFrameSelectedMacroBackground" file="Interface\Buttons\UI-EmptySlot">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="5" y="-218"/>
+					</Anchors>
+				</Texture>
+				<FontString name="LongMacroFrameSelectedMacroName" inherits="GameFontNormalLarge" justifyH="LEFT">
+					<Size x="256" y="16"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="LongMacroFrameSelectedMacroBackground" relativePoint="TOPRIGHT" x="-4" y="-10"/>
+					</Anchors>
+				</FontString>
+				<FontString name="LongMacroFrameEnterMacroText" inherits="GameFontHighlightSmall" text="Enter Long Macro Commands:">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="LongMacroFrameSelectedMacroBackground" relativePoint="BOTTOMLEFT" x="8" y="3"/>
+					</Anchors>
+				</FontString>
+				<FontString name="LongMacroFrameCharLimitText" inherits="GameFontHighlightSmall">
+					<Size x="0" y="10"/>
+					<Anchors>
+						<Anchor point="BOTTOM" x="-15" y="30"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="LongMacroFrameSelectedMacroButton" frameStrata="HIGH" inherits="LongMacroButtonTemplate" id="0">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="LongMacroFrameSelectedMacroBackground" x="14" y="-14"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:SetChecked(false);
+						LongMacroButton_onDragStart(self, "LeftButton");
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<ScrollFrame name="LongMacroButtonScrollFrame" inherits="UIPanelScrollFrameTemplate">
+				<Size x="294" y="146"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="12" y="-66"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture name="$parentTop" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+        					<Color r="1" g=".75" b=".2" a="1" />
+							<Size x="31" y="102"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" x="-2" y="5"/>
+							</Anchors>
+							<TexCoords left="0" right="0.484375" top="0" bottom="0.4"/>
+						</Texture>
+						<Texture name="$parentBottom" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+        					<Color r="1" g=".75" b=".2" a="1" />
+							<Size x="31" y="106"/>
+							<Anchors>
+								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT" x="-2" y="-2"/>
+							</Anchors>
+							<TexCoords left="0.515625" right="1.0" top="0" bottom="0.4140625"/>
+						</Texture>
+						<Texture name="$parentMiddle" file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+        					<Color r="1" g=".75" b=".2" a="1" />
+							<Size x="31" y="1"/>
+							<Anchors>
+								<Anchor point="TOP" relativeTo="$parentTop" relativePoint="BOTTOM"/>
+								<Anchor point="BOTTOM" relativeTo="$parentBottom" relativePoint="TOP"/>
+							</Anchors>
+							<TexCoords left="0" right="0.484375" top=".75" bottom="1.0"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						LongMacroScrollFrame_paintGold(self);
+						ScrollFrame_OnLoad( self );
+					</OnLoad>
+				</Scripts>
+				<ScrollChild>
+					<Frame name="LongMacroButtonContainer">
+						<Size x="285" y="10"/>
+						<Anchors>
+							<Anchor point="TOPLEFT"/>
+						</Anchors>
+						<Scripts>
+							<OnLoad function="LongMacroButtonContainer_onLoad"/>
+						</Scripts>
+					</Frame>
+				</ScrollChild>
+			</ScrollFrame>
+			<Button name="LongMacroEditButton" frameStrata="HIGH" inherits="UIPanelButtonTemplate" text="Change Name">
+				<Size x="130" y="22"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="LongMacroFrameSelectedMacroBackground" x="55" y="-30"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick function="LongMacroEditButton_onClick"/>
+				</Scripts>
+			</Button>
+			<ScrollFrame name="LongMacroFrameScrollFrame" inherits="UIPanelScrollFrameTemplate">
+				<Size x="286" y="85"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="LongMacroFrameSelectedMacroBackground" relativePoint="BOTTOMLEFT" x="11" y="-13"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						LongMacroScrollFrame_paintGold(self);
+						ScrollFrame_OnLoad( self );
+					</OnLoad>
+				</Scripts>
+				<ScrollChild>
+					<EditBox name="LongMacroFrameText" multiLine="true" letters="1023" autoFocus="false" countInvisibleLetters="true">
+						<Size x="286" y="85"/>
+						<Scripts>							
+							<OnTextChanged>
+								LongMacroFrame.textChanged = 1;
+								if ( LongMacroPopupFrame.mode == "new" ) then
+									LongMacroPopupFrame:Hide();
+								end
+								LongMacroFrameCharLimitText:SetFormattedText(LONGMACROFRAME_CHAR_LIMIT_STRING, LongMacroFrameText:GetNumLetters());
+
+								ScrollingEdit_OnTextChanged(self, self:GetParent());
+							</OnTextChanged>
+							<OnCursorChanged function="ScrollingEdit_OnCursorChanged"/>
+							<OnUpdate>
+								ScrollingEdit_OnUpdate(self, elapsed, self:GetParent());
+							</OnUpdate>
+							<OnEscapePressed function="EditBox_ClearFocus"/>
+						</Scripts>
+						<FontString inherits="GameFontHighlightSmall"/>
+					</EditBox>
+				</ScrollChild>
+			</ScrollFrame>
+			<Button name="LongMacroFrameTextButton">
+				<Size x="286" y="85"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="LongMacroFrameText"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						LongMacroFrameText:SetFocus();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroCancelButton" frameStrata="HIGH" inherits="UIPanelButtonTemplate" text="CANCEL">
+				<Size x="80" y="22"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="LongMacroFrameScrollFrame" relativePoint="TOPRIGHT" x="25" y="10"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick function="LongMacroFrameCancelButton_onClick"/>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroSaveButton" frameStrata="HIGH" inherits="UIPanelButtonTemplate" text="SAVE">
+				<Size x="80" y="22"/>
+				<Anchors>
+					<Anchor point="BOTTOM" relativeTo="LongMacroCancelButton" relativePoint="TOP" x="0" y="15"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick function="LongMacroFrameSaveButton_onClick"/>
+				</Scripts>
+			</Button>
+			<Frame name="LongMacroFrameTextBackground">
+				<Size x="322" y="95"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="LongMacroFrame" x="6" y="-289"/>
+				</Anchors>
+				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+					<EdgeSize>
+						<AbsValue val="16"/>
+					</EdgeSize>
+					<TileSize>
+						<AbsValue val="16"/>
+					</TileSize>
+					<BackgroundInsets>
+						<AbsInset left="5" right="5" top="5" bottom="5"/>
+					</BackgroundInsets>
+				</Backdrop>
+				<Scripts>
+					<OnLoad>
+						self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g * .75, TOOLTIP_DEFAULT_COLOR.b * .2);
+						self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g * .75, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b * .2);
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Button name="LongMacroFrameTab1" inherits="TabButtonTemplate" text="GENERAL_MACROS" id="1">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="51" y="-28"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						LongMacroTabButton_paintGold(self);						
+						PanelTemplates_TabResize(self, -15);
+						_G[self:GetName().."HighlightTexture"]:SetWidth(self:GetTextWidth() + 31);
+					</OnLoad>
+					<OnClick>
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+						PanelTemplates_SetTab(LongMacroFrame, self:GetID());
+						LongMacroFrame_saveMacro();
+						LongMacroFrame_setIsPerCharacter(false);
+						LongMacroFrame_update();
+						LongMacroButtonScrollFrame:SetVerticalScroll(0);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroFrameTab2" inherits="TabButtonTemplate" id="2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="LongMacroFrameTab1" relativePoint="RIGHT" x="0" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						if ( self:GetFontString():IsTruncated() ) then
+							GameTooltip:SetOwner(self, "ANCHOR_RIGHT");
+							GameTooltip:SetText(string.format(CHARACTER_SPECIFIC_MACROS, UnitName("player")), 1.0,1.0,1.0 );
+						end
+					</OnEnter>
+					<OnLeave function="GameTooltip_Hide"/>
+					<OnLoad>
+						LongMacroTabButton_paintGold(self);
+						self:SetFormattedText(CHARACTER_SPECIFIC_MACROS, UnitName("player"));
+						_G[self:GetName().."HighlightTexture"]:SetWidth(self:GetTextWidth() + 31);
+						PanelTemplates_TabResize(self, -15, nil, nil, 150);
+					</OnLoad>
+					<OnClick>
+						PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON);
+						PanelTemplates_SetTab(LongMacroFrame, self:GetID());
+						LongMacroFrame_saveMacro();
+						LongMacroFrame_setIsPerCharacter(true);
+						LongMacroFrame_update();
+						LongMacroButtonScrollFrame:SetVerticalScroll(0);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroDeleteButton" inherits="UIPanelButtonTemplate" text="DELETE">
+				<Size x="80" y="22"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativeTo="LongMacroFrame" x="4" y="4"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick function="LongMacroDeleteButton_onClick"/>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroNewButton" inherits="UIPanelButtonTemplate" text="NEW">
+				<Size x="80" y="22"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" x="-82" y="4"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick function="LongMacroNewButton_onClick"/>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroExitButton" inherits="UIPanelButtonTemplate" text="EXIT">
+				<Size x="80" y="22"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" x="-5" y="4"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick function="HideParentPanel"/>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad function="LongMacroFrame_onLoad"/>
+			<OnShow function="LongMacroFrame_onShow"/>
+			<OnHide function="LongMacroFrame_onHide"/>
+		</Scripts>
+	</Frame>
+	<Frame name="LongMacroPopupFrame" toplevel="true" parent="UIParent" movable="true" enableMouse="true" hidden="true">
+		<Size x="297" y="96"/>
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="LongMacroFrame" relativePoint="TOPRIGHT" x="0" y="0"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\MacroFrame\MacroPopup-TopLeft">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="256" y="54"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.2109375"/>
+				</Texture>
+				<Texture file="Interface\MacroFrame\MacroPopup-TopRight">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="64" y="54"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="256" y="0"/>
+					</Anchors>
+					<TexCoords left="0" right="1" top="0" bottom="0.2109375"/>
+				</Texture>
+				<Texture file="Interface\MacroFrame\MacroPopup-BotLeft">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="256" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="-54"/>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\MacroFrame\MacroPopup-BotRight">
+        			<Color r="1" g=".75" b=".2" a="1" />
+					<Size x="64" y="64"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="256" y="-54"/>
+					</Anchors>
+				</Texture>
+				<FontString inherits="GameFontHighlightSmall" text="MACRO_POPUP_TEXT">
+					<Anchors>
+						<Anchor point="TOPLEFT" x="24" y="-21"/>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="LongMacroPopupEditBox" letters="16" historyLines="0">
+				<Size x="182" y="20"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="29" y="-35"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="LongMacroPopupNameLeft" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
+							<Size x="12" y="29"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="-11" y="0"/>
+							</Anchors>
+							<TexCoords left="0" right="0.09375" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture name="LongMacroPopupNameMiddle" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
+							<Size x="175" y="29"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="LongMacroPopupNameLeft" relativePoint="RIGHT"/>
+							</Anchors>
+							<TexCoords left="0.09375" right="0.90625" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture name="LongMacroPopupNameRight" file="Interface\ClassTrainerFrame\UI-ClassTrainer-FilterBorder">
+							<Size x="12" y="29"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="LongMacroPopupNameMiddle" relativePoint="RIGHT"/>
+							</Anchors>
+							<TexCoords left="0.90625" right="1.0" top="0" bottom="1.0"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnTextChanged>
+						local text = self:GetText();
+						text = string.gsub(text, "[\"%[%]; ]", "_");
+						LongMacroPopupOkayButton_update();
+						LongMacroFrameSelectedMacroName:SetText(text);
+					</OnTextChanged>
+					<OnEscapePressed function="LongMacroPopupFrame_cancelEdit"/>
+					<OnEnterPressed>
+						if ( LongMacroPopupOkayButton:IsEnabled() ) then
+							LongMacroPopupOkayButton_onClick(LongMacroPopupOkayButton);
+						end
+					</OnEnterPressed>
+				</Scripts>
+				<FontString inherits="ChatFontNormal"/>
+			</EditBox>
+			<Button name="LongMacroPopupCancelButton" inherits="UIPanelButtonTemplate" text="CANCEL">
+				<Size x="78" y="22"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" relativeTo="LongMacroPopupFrame" x="-11" y="13"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick>
+						LongMacroPopupFrame_cancelEdit();
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="LongMacroPopupOkayButton" inherits="UIPanelButtonTemplate" text="OKAY">
+				<Size x="78" y="22"/>
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="LongMacroPopupCancelButton" relativePoint="LEFT" x="-2" y="0"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad function="LongMacroPanelButton_paintGold"/>
+					<OnClick>
+						LongMacroPopupOkayButton_onClick();
+						PlaySound(SOUNDKIT.GS_TITLE_OPTION_OK);
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnShow function="LongMacroPopupFrame_onShow"/>
+			<OnHide function="LongMacroPopupFrame_onHide"/>
+		</Scripts>
+	</Frame>
+</Ui>

@@ -1,0 +1,12 @@
+## Interface: 80100
+## Title: Long Macros
+## Author: Derangement
+## Version: v1.0.16
+## Notes: Tool to allow macros longer than 255 characters long, and still have their icon update normally.
+## SavedVariables: LongMacrosAccountConfig
+## SavedVariablesPerCharacter: LongMacrosCharacterConfig
+
+LongMacros.lua
+Button.lua
+Manager.lua
+UI.xml
