@@ -527,9 +527,15 @@ LongMacroFrame_update = function()
 					texture = texture or MACRO_NOT_FOUND_TEXTURE;
 				end
 				
-				macroButton:SetNormalTexture(texture);		
-				macroButton:SetHighlightTexture(texture);			
-				macroButton:SetText(name);
+				local formattedName;
+				if (name:sub(1,1) == ".") then
+					formattedName = name:sub(2,2)..".."..name:sub(-3):gsub("_", "");
+				else
+					formattedName = name:sub(1,5)
+				end
+
+				macroButton:SetNormalTexture(texture);			
+				macroButton:SetText(formattedName);
 				macroButton:Enable();
 				
 				-- Highlight Selected Macro
@@ -541,13 +547,13 @@ LongMacroFrame_update = function()
 					LongMacroFrameSelectedMacroButton.macroName = name;
 					LongMacroFrameSelectedMacroButton.blizzMacroName = macroButton.blizzMacroName;
 					LongMacroFrameSelectedMacroButton:SetNormalTexture(texture);
+					LongMacroFrameSelectedMacroButton:SetSize(40,40);
 				else
 					macroButton:SetChecked(false);
 				end
 			else
 				macroButton:SetChecked(false);
 				macroButton:SetNormalTexture("");
-				macroButton:SetHighlightTexture("");
 				macroButton:SetText("");
 				macroButton:Disable();
 			end
