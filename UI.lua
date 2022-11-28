@@ -398,7 +398,7 @@ module.LongMacroButtonContainer_createButton = function( self )
 	self.numButtons = buttonID;
 	
 	local button = CreateFrame("CheckButton", "LongMacroButton"..buttonID, self, "LongMacroButtonTemplate");
-	
+	button:SetSize(36,36);
 	button:SetID(buttonID);
 	
 	if ( buttonID == 1 ) then
@@ -501,7 +501,7 @@ LongMacroFrame_update = function()
 	
 	local numButtons = LongMacroButtonContainer.numButtons;
 	
-	local macroButtonName, macroButton, macroIcon, macroName;
+	local macroButtonName, macroButton;
 	local _, name, texture, body;
 	local selectedName, selectedBody, selectedIcon;
 	
@@ -509,8 +509,6 @@ LongMacroFrame_update = function()
 	for i=1, numButtons do
 		macroButtonName = "LongMacroButton"..i;
 		macroButton = _G[macroButtonName];
-		macroIcon = _G[macroButtonName.."Icon"];
-		macroName = _G[macroButtonName.."Name"];
 		
 		if ( i <= numShownButtons ) then
 			if ( i <= numMacros ) then
@@ -529,8 +527,9 @@ LongMacroFrame_update = function()
 					texture = texture or MACRO_NOT_FOUND_TEXTURE;
 				end
 				
-				macroIcon:SetTexture(texture);				
-				macroName:SetText(name);
+				macroButton:SetNormalTexture(texture);		
+				macroButton:SetHighlightTexture(texture);			
+				macroButton:SetText(name);
 				macroButton:Enable();
 				
 				-- Highlight Selected Macro
@@ -541,15 +540,15 @@ LongMacroFrame_update = function()
 					LongMacroFrameSelectedMacroButton:SetID(i);
 					LongMacroFrameSelectedMacroButton.macroName = name;
 					LongMacroFrameSelectedMacroButton.blizzMacroName = macroButton.blizzMacroName;
-					
-					LongMacroFrameSelectedMacroButtonIcon:SetTexture(texture);
+					LongMacroFrameSelectedMacroButton:SetNormalTexture(texture);
 				else
 					macroButton:SetChecked(false);
 				end
 			else
 				macroButton:SetChecked(false);
-				macroIcon:SetTexture("");
-				macroName:SetText("");
+				macroButton:SetNormalTexture("");
+				macroButton:SetHighlightTexture("");
+				macroButton:SetText("");
 				macroButton:Disable();
 			end
 			macroButton:Show();

@@ -1,7 +1,7 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\..\FrameXML\UI.xsd">
 	<Script file="UI.lua"/>
-	<CheckButton name="LongMacroButtonTemplate" inherits="PopupButtonTemplate" virtual="true">
+	<CheckButton name="LongMacroButtonTemplate" inherits="SecureActionButtonTemplate" virtual="true">
 		<Scripts>
 			<OnLoad function="LongMacroButton_paintGold"/>
 			<OnClick>
@@ -210,30 +210,27 @@
 					<OnClick function="LongMacroFrameSaveButton_onClick"/>
 				</Scripts>
 			</Button>
-			<Frame name="LongMacroFrameTextBackground">
+			<Frame name="LongMacroFrameTextBackground" inherits="BackdropTemplate" setAllPoints="true" >
 				<Size x="322" y="95"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="LongMacroFrame" x="6" y="-289"/>
 				</Anchors>
-				<Backdrop bgFile="Interface\Tooltips\UI-Tooltip-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
-					<EdgeSize>
-						<AbsValue val="16"/>
-					</EdgeSize>
-					<TileSize>
-						<AbsValue val="16"/>
-					</TileSize>
-					<BackgroundInsets>
-						<AbsInset left="5" right="5" top="5" bottom="5"/>
-					</BackgroundInsets>
-				</Backdrop>
 				<Scripts>
-					<OnLoad>
+					<OnLoad inherit="prepend">
+						self:SetBackdrop({
+							bgFile = "Interface\\Buttons\\UI-SliderBar-Background",
+							edgeFile = "Interface\\Buttons\\UI-SliderBar-Border",
+							tile = true,
+							tileSize = 16,
+							edgeSize = 16,
+							insets = { left = 5, right = 5, top = 5, bottom = 5, },
+						})
 						self:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g * .75, TOOLTIP_DEFAULT_COLOR.b * .2);
 						self:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g * .75, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b * .2);
 					</OnLoad>
 				</Scripts>
 			</Frame>
-			<Button name="LongMacroFrameTab1" inherits="TabButtonTemplate" text="GENERAL_MACROS" id="1">
+			<Button name="LongMacroFrameTab1" inherits="PanelTabButtonTemplate" text="GENERAL_MACROS" id="1">
 				<Anchors>
 					<Anchor point="TOPLEFT" x="51" y="-28"/>
 				</Anchors>
@@ -253,7 +250,7 @@
 					</OnClick>
 				</Scripts>
 			</Button>
-			<Button name="LongMacroFrameTab2" inherits="TabButtonTemplate" id="2">
+			<Button name="LongMacroFrameTab2" inherits="PanelTabButtonTemplate" id="2">
 				<Anchors>
 					<Anchor point="LEFT" relativeTo="LongMacroFrameTab1" relativePoint="RIGHT" x="0" y="0"/>
 				</Anchors>
