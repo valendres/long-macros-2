@@ -665,10 +665,10 @@ module.createButton = function( longMacroName )
 		if module.getButton( longMacroName ) then
 			error( "Button " .. longMacroName .. " already exists." );
 			return;
-		end		
-		
+		end
+
 		--button setup
-		btn = CreateFrame("button", module.toButtonName(longMacroName), UIParent , "SecureActionButtonTemplate");
+		btn = CreateFrame("button", module.toButtonName(longMacroName), UIParent , "SecureUnitButtonTemplate");
 		btn.longMacroName = longMacroName;
 		
 		btn.delete = module.button_delete;
